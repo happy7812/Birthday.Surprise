@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Masoom-Day</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(120deg, #ffe6f0, #d0e6f7);
+      color: #333;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .container {
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 3rem;
+      color: #ff3399;
+      text-shadow: 2px 2px 8px #ffb3d9;
+      margin-bottom: 1rem;
+    }
+
+    .message {
+      font-size: 1.2rem;
+      margin: 1.5rem auto;
+      line-height: 1.7;
+      max-width: 90%;
+      background: #ffffffa8;
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 0 10px #ffd9ec;
+    }
+
+    .cake {
+      width: 200px;
+      margin-top: 1.5rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .confetti {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    audio {
+      display: none;
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <canvas class="confetti"></canvas>
+
+  <div class="container">
+    <h1>🎉 Happy Birthday Masoom 🎂</h1>
+    <img class="cake" src="https://media.giphy.com/media/3o6ZsXeW5n8Wq5drVm/giphy.gif" alt="Cake" />
+
+    <div class="message">
+      Masoom, tujhe is din duniya mein bhejne ke liye upar wale ka dil bhi pighal gaya hoga.<br>
+      Teri muskaan mere liye ek dua hai, tera hona ek blessing hai.<br>
+      Tera har din khushiyo se bhara ho, aaj ka din sabse khaas ho.<br><br>
+      ❤️ Happy Birthday Masoom ❤️
+    </div>
+
+    <audio autoplay loop>
+      <source src="https://cdn.pixabay.com/download/audio/2023/03/08/audio_38aaed4b9e.mp3?filename=happy-birthday-to-you-piano-version-14085.mp3" type="audio/mp3">
+    </audio>
+
+    <footer>
+      Made with ❤️ by Mahesh
+    </footer>
+  </div>
+
+  <!-- Confetti JS -->
+  <script>
+    const canvas = document.querySelector('.confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const confettiCount = 150;
+    const confetti = [];
+
+    for (let i = 0; i < confettiCount; i++) {
+      confetti.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 6 + 4,
+        d: Math.random() * confettiCount,
+        color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+        tilt: Math.floor(Math.random() * 10) - 10,
+        tiltAngleIncremental: (Math.random() * 0.07) + .05,
+        tiltAngle: 0
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach(c => {
+        ctx.beginPath();
+        ctx.lineWidth = c.r;
+        ctx.strokeStyle = c.color;
+        ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+        ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
+        ctx.stroke();
+      });
+      update();
+    }
+
+    function update() {
+      confetti.forEach(c => {
+        c.tiltAngle += c.tiltAngleIncremental;
+        c.y += (Math.cos(c.d) + 3 + c.r / 2) / 2;
+        c.x += Math.sin(c.d);
+        c.tilt = Math.sin(c.tiltAngle - (i / 3)) * 15;
+
+        if (c.y > canvas.height) {
+          c.x = Math.random() * canvas.width;
+          c.y = -20;
+        }
+      });
+    }
+
+    (function animate() {
+      requestAnimationFrame(animate);
+      draw();
+    })();
+  </script>
+</body>
+</html>
